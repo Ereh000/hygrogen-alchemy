@@ -10,6 +10,9 @@ import HeroVideo from '~/components/HeroVideo';
 import ImageWithText from '~/components/ImageWithText';
 import MultiColumn from '~/components/MultiColumn';
 import FeaturedProductOne from '~/components/FeaturedProductOne';
+import FeaturedArticle from '~/components/FeaturedArticle';
+import Newsletter from '~/components/Newsletter';
+import FooterOne from '~/components/FooterOne';
 
 /**
  * @type {MetaFunction}
@@ -37,13 +40,28 @@ export async function loader(args) {
  * @param {LoaderFunctionArgs}
  */
 async function loadCriticalData({context}) {
+  // const [{collections}] = await Promise.all([
+  //   context.storefront.query(FEATURED_COLLECTION_QUERY),
+  //   // Add other queries here, so that they are loaded in parallel
+  // ]);
+
   const [{collections}] = await Promise.all([
-    context.storefront.query(FEATURED_COLLECTION_QUERY),
-    // Add other queries here, so that they are loaded in parallel
+    context.storefront.query(FEATURED_COLLECTIONN_QUERY),
+  ]);
+
+  const [{collection}] = await Promise.all([
+    context.storefront.query(FEATURED_COLLECTION_PRODUCTS_QUERY),
+  ]);
+
+  const [{product}] = await Promise.all([
+    context.storefront.query(FEATURED_PRODUCTS_QUERY),
   ]);
 
   return {
-    featuredCollection: collections.nodes[0],
+    // featuredCollection: collections.nodes[0],
+    collections: collections,
+    featuredProducts: collection,
+    product: product,
   };
 }
 
@@ -70,15 +88,18 @@ function loadDeferredData({context}) {
 export default function Homepage() {
   /** @type {LoaderReturnData} */
   const data = useLoaderData();
+  console.log('product', data.product);
   return (
     <div className="home">
-      <HomeBanner/>
-      <FeaturedCollectionn/>
-      <FeaturedProductss/>
-      <HeroVideo/>
-      <ImageWithText/>
-      <MultiColumn/>
-      <FeaturedProductOne/>
+      <HomeBanner />
+      <FeaturedCollectionn collections={data.collections} />
+      <FeaturedProductss featuredProducts={data.featuredProducts} />
+      <HeroVideo />
+      <ImageWithText />
+      <MultiColumn />
+      <FeaturedProductOne product={data.product} />
+      <FeaturedArticle />
+      <Newsletter />
       {/* <FeaturedCollection collection={data.featuredCollection} />
       <RecommendedProducts products={data.recommendedProducts} /> */}
     </div>
@@ -107,6 +128,15 @@ function FeaturedCollection({collection}) {
     </Link>
   );
 }
+/**
+ * @param {{
+ *   collection: FeaturedCollectionFragment;
+ * }}
+ */
+// function FeaturedCollectionnn() {
+//   let { collections } = useLoaderData();
+//   console.log('collectionn', collections);
+// }
 
 /**
  * @param {{
@@ -164,13 +194,113 @@ const FEATURED_COLLECTION_QUERY = `#graphql
   }
   query FeaturedCollection($country: CountryCode, $language: LanguageCode)
     @inContext(country: $country, language: $language) {
-    collections(first: 1, sortKey: UPDATED_AT, reverse: true) {
+    collections(first: 20, sortKey: UPDATED_AT, reverse: true) {
       nodes {
         ...FeaturedCollection
       }
     }
   }
 `;
+
+const FEATURED_COLLECTIONN_QUERY = `#graphql
+  query GetAllCollections {
+    collections(first: 250) {
+      edges {
+        node {
+          id
+          title
+          image {
+            altText
+            transformedSrc
+          }
+          handle
+          products(first: 10) {
+            edges {
+              node {
+                id
+                title
+                handle
+              }
+            }
+          }
+        }
+      }
+    }
+}
+`;
+
+const FEATURED_COLLECTION_PRODUCTS_QUERY = `#graphql
+  query GetCollectionProducts {
+    collection(id: "gid://shopify/Collection/279828103262") {
+      id
+      title
+      products(first: 5) {
+        edges {
+          node {
+            id
+            title
+            handle
+            priceRange {
+              minVariantPrice {
+                amount
+                currencyCode
+              }
+            }
+            description
+            images(first: 2) {
+              edges {
+                node {
+                  originalSrc
+                  altText
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+const FEATURED_PRODUCTS_QUERY = `#graphql
+  query {
+    product(id: "gid://shopify/Product/7299721494622") {
+      id
+      title
+      descriptionHtml
+      images(first: 5) {
+        edges {
+          node {
+            url
+            altText
+          }
+        }
+      }
+      options {
+        name
+        values
+      }
+      variants(first: 100) {
+        edges {
+          node {
+            id
+            title
+            selectedOptions {
+              name
+              value
+            }
+            price {
+              amount
+              currencyCode
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+
 
 const RECOMMENDED_PRODUCTS_QUERY = `#graphql
   fragment RecommendedProduct on Product {

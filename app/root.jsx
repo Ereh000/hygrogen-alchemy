@@ -11,8 +11,8 @@ import {
   isRouteErrorResponse,
 } from '@remix-run/react';
 import favicon from '~/assets/favicon.svg';
-import baseCss from './styles/base.css';
-import mainScss from './styles/main.css';
+import baseCss from './styles/base.css?url';
+import mainScss from './styles/main.css?url';
 import resetStyles from '~/styles/reset.css?url';
 import appStyles from '~/styles/app.css?url';
 import tailwindCss from './styles/tailwind.css?url';

@@ -10,6 +10,7 @@ import {
 } from '~/components/SearchFormPredictive';
 import {SearchResultsPredictive} from '~/components/SearchResultsPredictive';
 import HeaderOne from './HeaderOne';
+import FooterOne from './FooterOne';
 
 /**
  * @param {PageLayoutProps}
@@ -37,11 +38,12 @@ export function PageLayout({
       )} */}
       <HeaderOne/>
       <main>{children}</main>
-      <Footer
+      {/* <Footer
         footer={footer}
         header={header}
         publicStoreDomain={publicStoreDomain}
-      />
+      /> */}
+      <FooterOne/>
     </Aside.Provider>
   );
 }

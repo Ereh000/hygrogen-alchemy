@@ -6,7 +6,7 @@ import '~/styles/header.css';
 
 const HeaderOne = () => {
   return (
-    <header>
+    <header style={{position: 'sticky', top: 0, zIndex: 9, }}>
       <div
         id="shopify-section-sections--18355397460195__header"
         className="shopify-section shopify-section-group-header-group cc-header"
@@ -2908,8 +2908,7 @@ const HeaderOne = () => {
                   <a href="/">
                     <img
                       className="logo__default-image"
-                      src="//alchemy-theme-sharp.myshopify.com/cdn/shop/files/ALCHEMY_Rockay_Logo_WHT.png?v=1633690326&width=145"
-                      srcSet="//alchemy-theme-sharp.myshopify.com/cdn/shop/files/ALCHEMY_Rockay_Logo_WHT.png?v=1633690326&width=290 2x"
+                      src="https://cdn.shopify.com/s/files/1/0576/5391/9838/files/ALCHEMY_Rockay_Logo_WHT.webp?v=1737733574?v=1633690326&width=280"
                       loading="eager"
                       width={145}
                       height={21}

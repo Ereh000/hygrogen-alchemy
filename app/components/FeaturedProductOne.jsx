@@ -1,17 +1,47 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import '~/styles/product.css';
 import '~/styles/media-gallary.css';
+import { ShopPayButton, VariantSelector } from '@shopify/hydrogen';
+import { Link } from '@remix-run/react';
 
-const FeaturedProductOne = () => {
+const FeaturedProductOne = ({product}) => {
+  useEffect(() => {
+    console.log('frontend', product);
+  }, []);
+
+  const [quantity, setQuantity] = useState(1);
+
+  const [selectedOptions, setSelectedOptions] = useState(
+    product.options.reduce((acc, option) => {
+      acc[option.name] = option.values[0]; // Default to the first value
+      return acc;
+    }, {}),
+  );
+
+  // Find the selected variant
+  const selectedVariant = product.variants.edges.find(({node}) =>
+    node.selectedOptions.every(
+      (option) => selectedOptions[option.name] === option.value,
+    ),
+  )?.node;
+
+  // Handle option selection
+  const handleOptionChange = (optionName, value) => {
+    setSelectedOptions((prev) => ({
+      ...prev,
+      [optionName]: value,
+    }));
+  };
+
+  console.log(selectedOptions);
+  console.log(selectedVariant);
+
   return (
     <section className="featured__product-one-section">
       <div
         id="shopify-section-template--18355397066979__95e37522-bf81-4793-920a-81f1e9ffbaad"
         className="shopify-section cc-featured-product"
       >
-        {/* <link rel="stylesheet" href="//alchemy-theme-sharp.myshopify.com/cdn/shop/t/61/assets/product.css?v=113626579191129689911736355012" />
-        <link rel="stylesheet" href="//alchemy-theme-sharp.myshopify.com/cdn/shop/t/61/assets/media-gallery.css?v=15378722319241324581736355012" /> */}
-        {/* <style data-shopify dangerouslySetInnerHTML={{__html: ".media-gallery__main .media-xr-button { display: none; }\n  .active .media-xr-button:not([data-shopify-xr-hidden]) { display: block; }" }} /> */}
         <append-modals
           className="section section--page-width js-product"
           data-section="template--18355397066979__95e37522-bf81-4793-920a-81f1e9ffbaad"
@@ -33,7 +63,6 @@ const FeaturedProductOne = () => {
                   <div
                     className="media-gallery__status visually-hidden"
                     role="status"
-                    aria-hidden="true"
                   >
                     Image 2 is now available in gallery view
                   </div>
@@ -121,7 +150,6 @@ const FeaturedProductOne = () => {
                                 height={14}
                                 viewBox="0 0 10 14"
                                 fill="currentColor"
-                                aria-hidden="true"
                                 focusable="false"
                                 role="presentation"
                                 className="icon"
@@ -291,7 +319,6 @@ const FeaturedProductOne = () => {
                           viewBox="0 0 24 24"
                           strokeWidth={2}
                           stroke="currentColor"
-                          aria-hidden="true"
                           focusable="false"
                           role="presentation"
                           className="icon"
@@ -301,7 +328,6 @@ const FeaturedProductOne = () => {
                       </button>
                       <div className="media-ctrl__counter text-sm">
                         <span className="media-ctrl__current-item">2</span>
-                        <span aria-hidden="true"> / </span>
                         <span className="visually-hidden">of</span>
                         <span className="media-ctrl__total-items">7</span>
                       </div>
@@ -319,7 +345,6 @@ const FeaturedProductOne = () => {
                           viewBox="0 0 24 24"
                           strokeWidth={2}
                           stroke="currentColor"
-                          aria-hidden="true"
                           focusable="false"
                           role="presentation"
                           className="icon"
@@ -399,7 +424,6 @@ const FeaturedProductOne = () => {
                               height={14}
                               viewBox="0 0 10 14"
                               fill="currentColor"
-                              aria-hidden="true"
                               focusable="false"
                               role="presentation"
                               className="icon"
@@ -542,7 +566,7 @@ const FeaturedProductOne = () => {
                 <div className="product-info__block product-info__block--title">
                   <h2 className="product-title h2">
                     <a href="/products/womens-windbreaker" title>
-                      Women's Windbreaker
+                      {product.title}
                     </a>
                   </h2>
                 </div>
@@ -551,16 +575,10 @@ const FeaturedProductOne = () => {
                     <div className="product-info__price text-lg md:text-xl js-product-price">
                       <div className="price">
                         <div className="price__default">
-                          <span className="price__current">$99.00</span>
+                          <span className="price__current">
+                              {selectedVariant.price.amount}
+                          </span>
                           <s className="price__was text-sm" hidden />
-                        </div>
-                        <div className="unit-price text-sm" hidden>
-                          (<span className="unit-price__price" />
-                          <span className="unit-price__separator"> / </span>
-                          <span className="unit-price__unit" />)
-                        </div>
-                        <div className="price__no-variant" hidden>
-                          <span className="price__current">Unavailable</span>
                         </div>
                       </div>
                     </div>
@@ -572,7 +590,6 @@ const FeaturedProductOne = () => {
                       >
                         <span
                           className="rating__stars"
-                          aria-hidden="true"
                           style={{rating: '3.5', ratingMax: 5.0}}
                         >
                           ★★★★★
@@ -625,127 +642,74 @@ const FeaturedProductOne = () => {
                       className="option-selector"
                       data-selector-type="listed"
                     >
-                      <legend className="label">
-                        Color:{' '}
-                        <span className="option-selector__label-value js-color-text">
-                          Dolphin Blue
-                        </span>
-                      </legend>
-                      <div className="option-selector__btns flex flex-wrap">
-                        <input
-                          type="radio"
-                          className="opt-btn visually-hidden focus-label js-option"
-                          name="template--18355397066979__95e37522-bf81-4793-920a-81f1e9ffbaad-color-option"
-                          id="template--18355397066979__95e37522-bf81-4793-920a-81f1e9ffbaad-color-opt-0"
-                          defaultValue="Dolphin Blue"
-                          defaultChecked
-                        />
-                        <label
-                          className="opt-label opt-label--swatch btn relative text-center"
-                          data-swatch="dolphin blue"
-                          htmlFor="template--18355397066979__95e37522-bf81-4793-920a-81f1e9ffbaad-color-opt-0"
-                        >
-                          <span className="visually-hidden js-value">
-                            Dolphin Blue
-                          </span>
-                        </label>
-                      </div>
-                    </fieldset>
-                    <fieldset
-                      className="option-selector"
-                      data-selector-type="listed"
-                    >
-                      <legend className="label">Size</legend>
-                      <div className="option-selector__btns flex flex-wrap">
-                        <input
-                          type="radio"
-                          className="opt-btn visually-hidden focus-label js-option"
-                          name="template--18355397066979__95e37522-bf81-4793-920a-81f1e9ffbaad-size-option"
-                          id="template--18355397066979__95e37522-bf81-4793-920a-81f1e9ffbaad-size-opt-0"
-                          defaultValue="S"
-                          defaultChecked
-                        />
-                        <label
-                          className="opt-label opt-label--btn btn relative text-center"
-                          htmlFor="template--18355397066979__95e37522-bf81-4793-920a-81f1e9ffbaad-size-opt-0"
-                        >
-                          <span>S</span>
-                        </label>
-                        <input
-                          type="radio"
-                          className="opt-btn visually-hidden focus-label js-option"
-                          name="template--18355397066979__95e37522-bf81-4793-920a-81f1e9ffbaad-size-option"
-                          id="template--18355397066979__95e37522-bf81-4793-920a-81f1e9ffbaad-size-opt-1"
-                          defaultValue="M"
-                        />
-                        <label
-                          className="opt-label opt-label--btn btn relative text-center"
-                          htmlFor="template--18355397066979__95e37522-bf81-4793-920a-81f1e9ffbaad-size-opt-1"
-                        >
-                          <span>M</span>
-                        </label>
-                        <input
-                          type="radio"
-                          className="opt-btn visually-hidden focus-label js-option"
-                          name="template--18355397066979__95e37522-bf81-4793-920a-81f1e9ffbaad-size-option"
-                          id="template--18355397066979__95e37522-bf81-4793-920a-81f1e9ffbaad-size-opt-2"
-                          defaultValue="L"
-                        />
-                        <label
-                          className="opt-label opt-label--btn btn relative text-center"
-                          htmlFor="template--18355397066979__95e37522-bf81-4793-920a-81f1e9ffbaad-size-opt-2"
-                        >
-                          <span>L</span>
-                        </label>
-                        <input
-                          type="radio"
-                          className="opt-btn visually-hidden focus-label js-option"
-                          name="template--18355397066979__95e37522-bf81-4793-920a-81f1e9ffbaad-size-option"
-                          id="template--18355397066979__95e37522-bf81-4793-920a-81f1e9ffbaad-size-opt-3"
-                          defaultValue="XL"
-                        />
-                        <label
-                          className="opt-label opt-label--btn btn relative text-center"
-                          htmlFor="template--18355397066979__95e37522-bf81-4793-920a-81f1e9ffbaad-size-opt-3"
-                        >
-                          <span>XL</span>
-                        </label>
+                      <div className="optionValue__wrapper">
+                        {product.options.map((option) => (
+                          <div key={option.name} className="mb-4">
+                            <legend className="label">
+                              {option.name} :{' '}
+                              <span className="option-selector__label-value js-color-text">
+                                {selectedOptions[option.name]}
+                              </span>
+                            </legend>
+
+                            {option.name == 'Color' ? (
+                              <div className="flex gap-2">
+                                {option.values.map((value) => (
+                                  <div className="option-selector__btns flex flex-wrap">
+                                    <label
+                                      className={`p-2 border opt-label opt-label--swatch btn relative text-center ${
+                                        selectedOptions[option.name] === value
+                                          ? '!border-gray-200'
+                                          : '!border-black'
+                                      }`}
+                                      data-swatch="dolphin blue"
+                                      htmlFor="template--18355397066979__95e37522-bf81-4793-920a-81f1e9ffbaad-color-opt-0"
+                                      onClick={() =>
+                                        handleOptionChange(option.name, value)
+                                      }
+                                    >
+                                      <span className="visually-hidden js-value">
+                                        {value}
+                                      </span>
+                                    </label>
+                                  </div>
+                                ))}
+                              </div>
+                            ) : (
+                              <div
+                                className="flex gap-2"
+                                style={{
+                                  flexWrap: 'wrap',
+                                  rowGap: '14px',
+                                }}
+                              >
+                                {option.values.map((value) => (
+                                  <div className="option-selector__btns flex flex-wrap">
+                                    <label
+                                      className={`p-2 border opt-label opt-label--btn btn relative text-center ${
+                                        selectedOptions[option.name] === value
+                                          ? '!border-gray-200'
+                                          : '!border-black'
+                                      }`}
+                                      onClick={() =>
+                                        handleOptionChange(option.name, value)
+                                      }
+                                    >
+                                      <span>{value}</span>
+                                    </label>
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                        ))}
                       </div>
                     </fieldset>
                   </variant-picker>
-                  {/* <noscript>
-                    &lt;div class="product-info__select"&gt;
-                    &lt;label class="label" for="variants-template--18355397066979__95e37522-bf81-4793-920a-81f1e9ffbaad"&gt;Product variants&lt;/label&gt;
-                    &lt;div class="select relative"&gt;
-                    &lt;select class="select w-full" id="variants-template--18355397066979__95e37522-bf81-4793-920a-81f1e9ffbaad" name="id" form="product-form-template--18355397066979__95e37522-bf81-4793-920a-81f1e9ffbaad"&gt;&lt;option value="41945862406371"
-                    &gt;Dolphin Blue / S
-                    - $99.00
-                    &lt;/option&gt;&lt;option value="41945862439139"
-                    &gt;Dolphin Blue / M
-                    - $99.00
-                    &lt;/option&gt;&lt;option value="41945862471907"
-                    &gt;Dolphin Blue / L
-                    - $99.00
-                    &lt;/option&gt;&lt;option value="41945862504675"
-                    &gt;Dolphin Blue / XL
-                    - $99.00
-                    &lt;/option&gt;&lt;/select&gt;
-                    &lt;/div&gt;
-                    &lt;/div&gt;
-                  </noscript> */}
                 </div>
                 <div className="product-info__block product-info__block--buy-buttons">
                   <product-form>
-                    <product-inventory
-                      className="no-js-hidden"
-                      data-show-inventory-notice="always"
-                      data-show-inventory-count="low"
-                      data-threshold={10}
-                      data-text-x-left-low="[QTY] in stock"
-                      data-text-x-left-ok="[QTY] in stock, ready to ship"
-                      data-text-low="Low stock"
-                      data-text-ok="In stock"
-                    >
+                    <product-inventory className="no-js-hidden">
                       <div className="product-inventory mb-6 product-inventory--pulse product-inventory--ok">
                         <span className="product-inventory__icon-container relative inline-flex me-1">
                           <span className="product-inventory__icon-low" hidden>
@@ -754,7 +718,6 @@ const FeaturedProductOne = () => {
                               width={20}
                               height={20}
                               strokeWidth={1}
-                              aria-hidden="true"
                               focusable="false"
                               role="presentation"
                               xmlns="http://www.w3.org/2000/svg"
@@ -781,7 +744,6 @@ const FeaturedProductOne = () => {
                               width={20}
                               height={20}
                               strokeWidth={1}
-                              aria-hidden="true"
                               focusable="false"
                               role="presentation"
                               xmlns="http://www.w3.org/2000/svg"
@@ -918,7 +880,6 @@ const FeaturedProductOne = () => {
                             <small
                               id="shopify-buyer-consent"
                               className="hidden"
-                              aria-hidden="true"
                             >
                               {' '}
                               This item is a recurring or deferred purchase. By

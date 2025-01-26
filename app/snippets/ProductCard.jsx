@@ -1,6 +1,6 @@
 import React from 'react';
 
-const ProductCard = () => {
+const ProductCard = ({product}) => {
   return (
     <li className="flex flex-col slider__item">
       <product-card
@@ -17,7 +17,8 @@ const ProductCard = () => {
             tabIndex={-1}
           >
             <img
-              src="https://cdn.shopify.com/s/files/1/0576/5391/9838/files/Men_sNunatakSmock_FadedTeak-Front.jpg?v=1737481973"
+              // src="https://cdn.shopify.com/s/files/1/0576/5391/9838/files/Men_sNunatakSmock_FadedTeak-Front.jpg?v=1737481973"
+              src={product.images.edges[0].node.originalSrc}
               className="img-fit card__main-image object-center"
               data-media-id={25538400190691}
               loading="lazy"
@@ -27,7 +28,8 @@ const ProductCard = () => {
               alt=""
             />
             <img
-              src="https://cdn.shopify.com/s/files/1/0576/5391/9838/files/Men_sMonsoonNunatakSmock_FadedTeak_2048px.jpg?v=1737481973"
+              // src="https://cdn.shopify.com/s/files/1/0576/5391/9838/files/Men_sMonsoonNunatakSmock_FadedTeak_2048px.jpg?v=1737481973"
+              src={product.images.edges[1].node.originalSrc}
               className="img-fit card__hover-image object-center"
               loading="lazy"
               fetchpriority="auto"
@@ -51,12 +53,12 @@ const ProductCard = () => {
                 href="/collections/socks/products/evo"
                 className="card-link text-current js-prod-link"
               >
-                Evo
+                {product.title}
               </a>
             </p>
             <div className="price price--on-sale">
               <div className="price__default">
-                <span className="price__current">$9.50</span>
+                <span className="price__current">${product.priceRange.minVariantPrice.amount} </span>
                 <s className="price__was">$19.00</s>
               </div>
               <div className="unit-price text-xs" hidden>

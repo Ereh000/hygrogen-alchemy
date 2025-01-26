@@ -3,10 +3,10 @@ import '~/styles/quickAdd.css'
 import '~/styles/product.css'
 import ProductCard from '~/snippets/ProductCard'
 
-const FeaturedProducts = () => {
+const FeaturedProducts = ({featuredProducts}) => {
     return (
     <section className='featured__product-section'>
-        <section id="shopify-section-template--18355397066979__featured-collection" className="shopify-section cc-featured-collection">
+        <div id="shopify-section-template--18355397066979__featured-collection" className="shopify-section cc-featured-collection">
             <div className="section section--px-0" id="template--18355397066979__featured-collection">
                 <carousel-slider className="carousel block xl:overflow-hidden">
                     <div className="container">
@@ -32,18 +32,16 @@ const FeaturedProducts = () => {
                     <div className="slider relative" id="slider-template--18355397066979__featured-collection">
                         <div className="container">
                             <ul className="slider__grid grid grid-flow-col auto-cols-2 md:auto-cols-3 lg:auto-cols-4 xl:auto-cols-5 gap-x-theme gap-y-card" role="list">
-                                <ProductCard/>
-                                <ProductCard/>
-                                <ProductCard/>
-                                <ProductCard/>
-                                <ProductCard/>
+                                {featuredProducts.products.edges.map((product)=> (
+                                <ProductCard product={product.node}/>
+                                ))}
                             </ul>
                         </div>
                     </div> 
                 </div>
             </carousel-slider>
         </div>
-      </section>
+      </div>
     </section>
   )
 }

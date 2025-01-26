@@ -148,14 +148,14 @@ button.reset:hover:not(:has(> *)) {
 * --------------------------------------------------
 */
 .header {
-  align-items: center;
+  /* align-items: center;
   background: #fff;
   display: flex;
   height: var(--header-height);
   padding: 0 1rem;
   position: sticky;
   top: 0;
-  z-index: 1;
+  z-index: 1; */
 }
 
 .header-menu-mobile-toggle {
@@ -197,20 +197,20 @@ button.reset:hover:not(:has(> *)) {
 * --------------------------------------------------
 */
 .footer {
-  background: var(--color-dark);
-  margin-top: auto;
+  /* background: var(--color-dark); */
+  /* margin-top: auto; */
 }
 
 .footer-menu {
-  align-items: center;
+  /* align-items: center;
   display: flex;
   grid-gap: 1rem;
-  padding: 1rem;
+  padding: 1rem; */
 }
-
+/* 
 .footer-menu a {
   color: var(--color-light);
-}
+} */
 
 /*
 * --------------------------------------------------

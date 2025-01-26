@@ -3,8 +3,8 @@
   --gutter: var(--gutter-sm, 16px);
   --column-gap: var(--grid-column-gap);
   --row-gap: $space-10;
-  --space-unit: .4rem;
-  --h2-font-size: calc((var(--h2) / 1.4)* var(--fluid-1-4));
+  --space-unit: 0.4rem;
+  --h2-font-size: calc((var(--h2) / 1.4) * var(--fluid-1-4));
 }
 
 style attribute {
@@ -23,14 +23,14 @@ style attribute {
 }
 
 :root {
-  --jdgm-primary-color: #83858C;
+  --jdgm-primary-color: #83858c;
   --jdgm-secondary-color: #ccc;
-  --jdgm-star-color: #DBFF3D;
+  --jdgm-star-color: #dbff3d;
   --jdgm-write-review-text-color: white;
-  --jdgm-write-review-bg-color: #83858C;
-  --jdgm-paginate-color: #83858C;
+  --jdgm-write-review-bg-color: #83858c;
+  --jdgm-paginate-color: #83858c;
   --jdgm-border-radius: 0;
-  --jdgm-reviewer-name-color: #83858C;
+  --jdgm-reviewer-name-color: #83858c;
 }
 
 :root {
@@ -62,14 +62,15 @@ style attribute {
 :root {
   --fluid-vw: 100vw;
   --fluid-max-vw: 1536;
-  --fluid-calc: (var(--fluid-vw) - 32rem) / (var(--fluid-max-vw) / 10 - 32) + .1rem;
-  --fluid-1-065: ((1.065 / 10 - .1) * var(--fluid-calc));
-  --fluid-1-125: ((1.125 / 10 - .1) * var(--fluid-calc));
-  --fluid-1-2: ((1.2 / 10 - .1) * var(--fluid-calc));
-  --fluid-1-25: ((1.25 / 10 - .1) * var(--fluid-calc));
-  --fluid-1-3: ((1.3 / 10 - .1) * var(--fluid-calc));
-  --fluid-1-4: ((1.4 / 10 - .1) * var(--fluid-calc));
-  --fluid-1-5: ((1.5 / 10 - .1) * var(--fluid-calc));
+  --fluid-calc: (var(--fluid-vw) - 32rem) / (var(--fluid-max-vw) / 10 - 32) +
+    0.1rem;
+  --fluid-1-065: ((1.065 / 10 - 0.1) * var(--fluid-calc));
+  --fluid-1-125: ((1.125 / 10 - 0.1) * var(--fluid-calc));
+  --fluid-1-2: ((1.2 / 10 - 0.1) * var(--fluid-calc));
+  --fluid-1-25: ((1.25 / 10 - 0.1) * var(--fluid-calc));
+  --fluid-1-3: ((1.3 / 10 - 0.1) * var(--fluid-calc));
+  --fluid-1-4: ((1.4 / 10 - 0.1) * var(--fluid-calc));
+  --fluid-1-5: ((1.5 / 10 - 0.1) * var(--fluid-calc));
 }
 
 :root {
@@ -137,13 +138,13 @@ style attribute {
   --btn-bg-color: 113 113 113;
   --btn-text-color: 255 255 255;
   --btn-alt-bg-color: 22 22 22;
-  --btn-alt-bg-alpha: 1.0;
+  --btn-alt-bg-alpha: 1;
   --btn-alt-text-color: 248 248 248;
   --btn-border-width: 1px;
   --btn-letter-spacing: 0.08em;
   --btn-text-transform: uppercase;
   --btn-font-size: 1.4rem;
-  --input-bg-color: 22 22 22 / 1.0;
+  --input-bg-color: 22 22 22 / 1;
   --input-text-color: 248 248 248;
   --input-border-width: 1px;
   --input-bg-color-diff-3: #1e1e1e;
@@ -176,7 +177,13 @@ style attribute {
   --aos-animate-duration: 1s;
 }
 
-h2, .h2 {
+@media (min-width: 1024px) {
+  :root {
+    --gutter: var(--gutter-lg, 48px);
+  }
+}
+h2,
+.h2 {
   font-size: var(--h2-font-size);
 }
 
@@ -193,17 +200,22 @@ a {
 }
 
 .section {
-  margin-top: 0;
+  /* margin-top: 0; */
   margin-bottom: 0;
-  padding: 0;
+  padding-bottom: 0;
 }
 
 @media (min-width: 768px) {
   section {
-    padding: 0;
+    /* padding: 0; */
+  padding-bottom: 0;
+
   }
 }
 
+header .header {
+  background: #222;
+}
 header search-drawer {
   display: none;
 }
@@ -232,4 +244,9 @@ header .header__layout::before {
 .featured__product-one-section input.qty-input__input {
   padding: 9px !important;
   font-size: 16px;
+}
+
+#template--18355397066979__newsletter_FJWAwC .text-overlay {
+  background-color: rgba(var(--bg-color)/0);
+  background-image: var(--bg-gradient, none);
 }/*# sourceMappingURL=main.css.map */
